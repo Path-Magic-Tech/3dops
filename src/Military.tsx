@@ -1,4 +1,3 @@
-import React from 'react';
 import './Military.css';
 
 const Military = () => {
