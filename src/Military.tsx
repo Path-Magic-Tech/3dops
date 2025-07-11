@@ -81,7 +81,7 @@ const ScrollAnimationGrid = () => {
             const animation = useSpring({
               opacity: inView ? 1 : 0,
               transform: inView ? "translateX(0)" : "translateX(-20px)",
-              config: { duration: 1000, delay: index * 200 },
+              config: { duration: 2000, delay: index * 200 },
             });
 
             return (
@@ -106,7 +106,7 @@ const ScrollAnimationGrid = () => {
 const Military = () => {
    const [showQuoteModal, setShowQuoteModal] = useState(false);
 
-  const openQuoteModal = (e) => {
+  const openQuoteModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setShowQuoteModal(true);
   };

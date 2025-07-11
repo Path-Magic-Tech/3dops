@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './QuoteModal.css';
 
 // QuoteModal Component
-const QuoteModal = ({ isOpen, onClose }) => {
+const QuoteModal = ({ isOpen, onClose }:any) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,12 +12,12 @@ const QuoteModal = ({ isOpen, onClose }) => {
     quantity: '',
     timeline: '',
     material: '',
-    specifications: null
+    specifications: null as File | null
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -25,14 +25,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      specifications: e.target.files[0]
-    }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -190,24 +183,6 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 <option value="carbon-fiber">Carbon Fiber</option>
                 <option value="other">Other / Not Sure</option>
               </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Design Files / Specifications</label>
-              <div className="file-upload">
-                <input
-                  type="file"
-                  name="specifications"
-                  onChange={handleFileChange}
-                  accept=".pdf,.dwg,.step,.stp,.iges,.stl,.zip"
-                />
-                <div className="file-upload-text">
-                  {formData.specifications ? 
-                    `Selected: ${formData.specifications.name}` : 
-                    'Drop files here or click to upload (PDF, CAD files, specs)'
-                  }
-                </div>
-              </div>
             </div>
 
             <button
