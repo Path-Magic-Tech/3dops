@@ -6,7 +6,7 @@ const Military = () => {
     <div>
       <header>
         <nav className="container">
-          <a href="#" className="logo">
+          <a href="#">
             <img src={Logo}></img>
           </a>
           <ul className="nav-links">
