@@ -32,7 +32,7 @@ const Military = () => {
       <section className="hero">
         <div className="container">
           <div className="hero-content">
-            <h1>Tactical Metal Manufacturing</h1>
+            <h1>Additive Manufacturing</h1>
             <p className="tagline">
               ADAM Technology - Mission-Critical Parts On Demand
             </p>
