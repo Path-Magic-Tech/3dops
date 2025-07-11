@@ -2,6 +2,8 @@ import "./Military.css";
 import Logo from "./assets/3dops-logo.png";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
+import React, { useState } from 'react';
+import QuoteModal from "./QuoteModal";
 
 const HeroSection = () => {
   const [ref, inView] = useInView({ triggerOnce: true });
@@ -102,9 +104,23 @@ const ScrollAnimationGrid = () => {
 };
 
 const Military = () => {
+   const [showQuoteModal, setShowQuoteModal] = useState(false);
+
+  const openQuoteModal = (e) => {
+    e.preventDefault();
+    setShowQuoteModal(true);
+  };
+
+  const closeQuoteModal = () => {
+    setShowQuoteModal(false);
+  };
   return (
     <div>
       <header>
+      <QuoteModal 
+        isOpen={showQuoteModal} 
+        onClose={closeQuoteModal} 
+      />
         <nav className="container">
           <a href="#">
             <img src={Logo}></img>
@@ -123,9 +139,7 @@ const Military = () => {
               <a href="#about">About</a>
             </li>
           </ul>
-          <a href="#contact" className="contact-btn">
-            Get Quote
-          </a>
+          <a href="#contact" className="contact-btn" onClick={openQuoteModal}>Get Quote</a>
         </nav>
       </header>
 
@@ -341,6 +355,10 @@ const Military = () => {
           </div>
         </div>
       </footer>
+      <QuoteModal 
+        isOpen={showQuoteModal} 
+        onClose={closeQuoteModal} 
+      />
     </div>
   );
 };
