@@ -1,5 +1,105 @@
 import "./Military.css";
 import Logo from "./assets/3dops-logo.png";
+import { useSpring, animated } from "@react-spring/web";
+import { useInView } from "react-intersection-observer";
+
+const HeroSection = () => {
+  const [ref, inView] = useInView({ triggerOnce: true });
+
+  const fadeIn = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "scale(1)" : "scale(0.95)",
+    config: { tension: 80, friction: 20 },
+  });
+
+  const staggeredAnimation = (delay: number) =>
+    useSpring({
+      opacity: inView ? 1 : 0,
+      transform: inView ? "translateY(0)" : "translateY(30px)",
+      config: { tension: 80, friction: 20 },
+      delay,
+    });
+
+  return (
+    <section className="hero" ref={ref}>
+      <div className="container">
+        <animated.div style={fadeIn} className="hero-content">
+          <animated.h1 style={staggeredAnimation(0)}>Additive Manufacturing</animated.h1>
+          <animated.p style={staggeredAnimation(200)} className="tagline">
+            ADAM Technology - Mission-Critical Parts On Demand
+          </animated.p>
+
+          <animated.div style={staggeredAnimation(400)} className="hero-metrics">
+            <div className="metric">
+              <span className="metric-value">50%</span>
+              <span className="metric-label">Faster Production</span>
+            </div>
+            <div className="metric">
+              <span className="metric-value">20x</span>
+              <span className="metric-label">Cost Reduction</span>
+            </div>
+            <div className="metric">
+              <span className="metric-value">100%</span>
+              <span className="metric-label">Cast Quality</span>
+            </div>
+            <div className="metric">
+              <span className="metric-value">24/7</span>
+              <span className="metric-label">Operations</span>
+            </div>
+          </animated.div>
+
+          <animated.div style={staggeredAnimation(600)} className="hero-cta">
+            <a href="#quote" className="btn-primary">
+              Request Quote
+            </a>
+            <a href="#technology" className="btn-secondary">
+              View Technology
+            </a>
+          </animated.div>
+        </animated.div>
+      </div>
+    </section>
+  );
+};
+
+const ScrollAnimationGrid = () => {
+  const items = [
+    { number: "2-6", label: "Hours", desc: "From design to finished part" },
+    { number: "99.8%", label: "Density", desc: "Near-theoretical material density" },
+    { number: "500+", label: "Parts/Day", desc: "High-volume production capability" },
+    { number: "±0.1mm", label: "Tolerance", desc: "Precision manufacturing standards" },
+  ];
+
+  return (
+    <section className="stats-section">
+      <div className="container">
+        <div className="stats-grid">
+          {items.map((item, index) => {
+            const [ref, inView] = useInView({ triggerOnce: true });
+            const animation = useSpring({
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateX(0)" : "translateX(-20px)",
+              config: { duration: 1000, delay: index * 200 },
+            });
+
+            return (
+              <animated.div
+                key={index}
+                ref={ref}
+                style={animation}
+                className="stat-item"
+              >
+                <span className="stat-number">{item.number}</span>
+                <span className="stat-label">{item.label}</span>
+                <p className="stat-desc">{item.desc}</p>
+              </animated.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Military = () => {
   return (
@@ -29,44 +129,7 @@ const Military = () => {
         </nav>
       </header>
 
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1>Additive Manufacturing</h1>
-            <p className="tagline">
-              ADAM Technology - Mission-Critical Parts On Demand
-            </p>
-
-            <div className="hero-metrics">
-              <div className="metric">
-                <span className="metric-value">50%</span>
-                <span className="metric-label">Faster Production</span>
-              </div>
-              <div className="metric">
-                <span className="metric-value">20x</span>
-                <span className="metric-label">Cost Reduction</span>
-              </div>
-              <div className="metric">
-                <span className="metric-value">100%</span>
-                <span className="metric-label">Cast Quality</span>
-              </div>
-              <div className="metric">
-                <span className="metric-value">24/7</span>
-                <span className="metric-label">Operations</span>
-              </div>
-            </div>
-
-            <div className="hero-cta">
-              <a href="#quote" className="btn-primary">
-                Request Quote
-              </a>
-              <a href="#technology" className="btn-secondary">
-                View Technology
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       <section className="adam-tech" id="technology">
         <div className="container">
@@ -97,95 +160,82 @@ const Military = () => {
         </div>
       </section>
 
-      <section className="stats-section">
-        <div className="container">
-          <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-number">2-6</span>
-              <span className="stat-label">Hours</span>
-              <p className="stat-desc">From design to finished part</p>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">99.8%</span>
-              <span className="stat-label">Density</span>
-              <p className="stat-desc">Near-theoretical material density</p>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">500+</span>
-              <span className="stat-label">Parts/Day</span>
-              <p className="stat-desc">High-volume production capability</p>
-            </div>
-            <div className="stat-item">
-              <span className="stat-number">±0.1mm</span>
-              <span className="stat-label">Tolerance</span>
-              <p className="stat-desc">Precision manufacturing standards</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ScrollAnimationGrid />
 
       <section className="materials" id="materials">
         <div className="container">
-          <h2 className="section-title">Materials Arsenal</h2>
-          <p className="section-subtitle">
-            Military-grade materials for demanding operational environments
-          </p>
+          <animated.div
+          style={useSpring({
+            from: { opacity: 0, transform: "translateY(50px)" },
+            to: { opacity: 1, transform: "translateY(0)" },
+            config: { tension: 120, friction: 40 },
+          })}
+          >
+        <h2 className="section-title">Materials Arsenal</h2>
+        <p className="section-subtitle">
+          Military-grade materials for demanding operational environments
+        </p>
+          </animated.div>
 
           <div className="materials-grid">
-            <div className="material-category">
-              <h4>Stainless Steel</h4>
-              <ul className="material-list">
-                <li>
-                  17-4 Stainless Steel{" "}
-                  <span>High strength, corrosion resistant</span>
-                </li>
-                <li>
-                  303 Stainless Steel <span>Excellent machinability</span>
-                </li>
-              </ul>
-            </div>
+        {[
+          {
+            title: "Stainless Steel",
+            items: [
+          { name: "17-4 Stainless Steel", desc: "High strength, corrosion resistant" },
+          { name: "303 Stainless Steel", desc: "Excellent machinability" },
+            ],
+          },
+          {
+            title: "Tool Steel",
+            items: [
+          { name: "A-2 Tool Steel", desc: "Beta" },
+          { name: "D-2 Tool Steel", desc: "Beta" },
+            ],
+          },
+          {
+            title: "Aluminum Alloys",
+            items: [
+          { name: "6061 Aluminum", desc: "Beta" },
+          { name: "7075 Aluminum", desc: "Beta" },
+            ],
+          },
+          {
+            title: "Advanced Materials",
+            items: [
+          { name: "Titanium Ti-6Al-4V", desc: "Beta" },
+          { name: "Carbon Fiber", desc: "Stronger than 6061 Al" },
+          { name: "Kevlar", desc: "Ballistic-grade protection" },
+          { name: "HSHT Fiberglass", desc: "High-temp applications" },
+            ],
+          },
+        ].map((category, index) => {
+          const [ref, inView] = useInView({ triggerOnce: true });
+          const animation = useSpring({
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateY(0)" : "translateY(20px)",
+            config: { tension: 100, friction: 50 },
+            delay: index * 200,
+          });
 
-            <div className="material-category">
-              <h4>Tool Steel</h4>
-              <ul className="material-list">
-                <li>
-                  A-2 Tool Steel <span className="beta-tag">Beta</span>
-                </li>
-                <li>
-                  D-2 Tool Steel <span className="beta-tag">Beta</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="material-category">
-              <h4>Aluminum Alloys</h4>
-              <ul className="material-list">
-                <li>
-                  6061 Aluminum <span className="beta-tag">Beta</span>
-                </li>
-                <li>
-                  7075 Aluminum <span className="beta-tag">Beta</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="material-category">
-              <h4>Advanced Materials</h4>
-              <ul className="material-list">
-                <li>
-                  Titanium Ti-6Al-4V <span className="beta-tag">Beta</span>
-                </li>
-                <li>
-                  Carbon Fiber <span>Stronger than 6061 Al</span>
-                </li>
-                <li>
-                  Kevlar <span>Ballistic-grade protection</span>
-                </li>
-                <li>
-                  HSHT Fiberglass <span>High-temp applications</span>
-                </li>
-              </ul>
-            </div>
+          return (
+            <animated.div
+          key={index}
+          ref={ref}
+          style={animation}
+          className="material-category"
+            >
+          <h4>{category.title}</h4>
+          <ul className="material-list">
+            {category.items.map((item, idx) => (
+              <li key={idx}>
+            {item.name} <span>{item.desc}</span>
+              </li>
+            ))}
+          </ul>
+            </animated.div>
+          );
+        })}
           </div>
         </div>
       </section>
