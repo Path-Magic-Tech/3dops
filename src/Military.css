@@ -1263,7 +1263,7 @@ select:focus {
     padding: 0 16px;
   }
 }
-,
+
 .grid-three-col {
   grid-template-columns: 1fr;
 }
