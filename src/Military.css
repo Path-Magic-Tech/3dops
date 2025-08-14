@@ -27,6 +27,7 @@
 .page-content {
   animation: fadeIn 0.3s ease-in-out;
   padding: 0 200px;
+  max-width: 1200px;
 }
 
 /* Scroll behavior */

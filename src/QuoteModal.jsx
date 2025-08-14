@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './QuoteModal.css';
 
 // QuoteModal Component
-const QuoteModal = ({ isOpen, onClose }:any) => {
+const QuoteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,12 +12,12 @@ const QuoteModal = ({ isOpen, onClose }:any) => {
     quantity: '',
     timeline: '',
     material: '',
-    specifications: null as File | null
+    specifications: null
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -25,7 +25,7 @@ const QuoteModal = ({ isOpen, onClose }:any) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
